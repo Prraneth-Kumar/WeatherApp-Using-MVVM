@@ -6,8 +6,6 @@
 //
 
 import SwiftUI
-import Alamofire
-import SwiftyJSON
 
 struct ContentView: View {
     
@@ -17,7 +15,7 @@ struct ContentView: View {
     
     let  colorTitle = RadialGradient(gradient: Gradient(colors: [.gray, .gray, .orange]), center: .center, startRadius: 430, endRadius: 30)
     let color1 = LinearGradient(gradient: Gradient(colors: [.gray, .blue, .white]), startPoint: .topLeading, endPoint: .bottomTrailing)
-
+    
     var body: some View {
         NavigationView {
             ZStack {
@@ -26,6 +24,10 @@ struct ContentView: View {
                 VStack{
                     Text("Enter City Name For Weather")
                     TextField("Enter City or State", text: $cityName)
+                        .onSubmit {
+                            viewMode.cityName = cityName
+                            viewMode.value1()
+                        }
                         .multilineTextAlignment(.center)
                     Button("Search"){
                         viewMode.cityName = cityName
@@ -33,7 +35,7 @@ struct ContentView: View {
                     }.font(.system(size: 20, weight: .semibold))
                     List($viewMode.storeInArray) {$data in
                         Text("\(data.name)").fontWeight(.bold).multilineTextAlignment(.center)
-                           .listRowBackground(colorTitle)
+                            .listRowBackground(colorTitle)
                             .frame(maxWidth: .infinity, alignment: .center)
                         HStack{
                             VStack{
@@ -52,10 +54,13 @@ struct ContentView: View {
                             }
                         }.listRowBackground(color1)
                     }.listStyle(.grouped)
-                       // .background(colorTitle)
+                    // .background(colorTitle)
                         .scrollContentBackground(.hidden)
+                    
                 }
             }
+        }.alert(isPresented: $viewMode.errorAlert){
+            Alert(title: Text("Enter City Name Correctly") , message: Text(viewMode.message), primaryButton: .destructive(Text("Okay")) , secondaryButton: .default( Text("Cancel")))
         }
     }
 }

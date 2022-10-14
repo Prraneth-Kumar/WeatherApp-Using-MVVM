@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import UIKit
+//import UIKit
 import Alamofire
 import SwiftyJSON
 
@@ -21,6 +21,7 @@ struct iden: Identifiable{
     var image: String
 //    var ErrorMessage: String
 }
+
 //
 //extension ContentView {
 //
@@ -30,9 +31,12 @@ struct iden: Identifiable{
 class ViewModel: ObservableObject {
     @Published var cityName: String
     @Published var storeInArray = [iden]()
-    let HomePage = ContentView()
     
+    @Published var errorAlert = false
+    @Published var message = ""
+ 
     init(){
+        let HomePage = ContentView()
         self.cityName = HomePage.cityName
         if self.cityName.isEmpty{
             self.cityName = "Washington"
@@ -49,6 +53,8 @@ class ViewModel: ObservableObject {
             print(json)
             
             guard json["cod"] != "404" else{
+                errorAlert = true
+                message = json["message"].string!
                 //weather()
                 return
             }
