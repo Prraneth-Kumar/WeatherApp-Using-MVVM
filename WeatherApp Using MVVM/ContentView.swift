@@ -14,6 +14,7 @@ struct ContentView: View {
     @State var cityName = ""
     
     @StateObject var viewMode = ViewModel()
+    
     let  colorTitle = RadialGradient(gradient: Gradient(colors: [.gray, .gray, .orange]), center: .center, startRadius: 430, endRadius: 30)
     let color1 = LinearGradient(gradient: Gradient(colors: [.gray, .blue, .white]), startPoint: .topLeading, endPoint: .bottomTrailing)
 
